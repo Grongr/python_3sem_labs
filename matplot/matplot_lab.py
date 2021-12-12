@@ -102,12 +102,12 @@ def second_task():
     os.remove('mygif.gif')
     
 def third_task():
-    dk = pd.read_csv('students.csv', sep=";", header= None)
+    dk = pd.read_csv('students.csv', sep=";", header=None)
     dk.columns = ['prep','group', 'marks']
     test5 = dk.groupby(['prep', 'marks'])['prep'].count().unstack('marks').fillna(0)
     test6 = dk.groupby(['group', 'marks'])['group'].count().unstack('marks').fillna(0)
-    ax = test5.plot(kind='bar', stacked=True, rot= 0)
-    bx = test6.plot(kind='bar', stacked=True, rot= 0)
+    test5.plot(kind='bar', stacked=True, rot= 0)
+    test6.plot(kind='bar', stacked=True, rot= 0)
     plt.show()
 
 if __name__ == "__main__":
