@@ -7,8 +7,11 @@ import lxml
 def first_task():
     df = pd.read_csv("transactions.csv")
     m = df[df['STATUS'] == 'OK']
-    print(m.groupby(by = ['STATUS'])['SUM'].sum())
+    print("Three max operations: ", end='')
     print(*m.sort_values(by='SUM', ascending=False).iloc[0:3,3])
+    m = m[m['CONTRACTOR'] == 'Umbrella, Inc']
+    print("Zombie sponsor's operations sum: ", end='')
+    print(m['SUM'].sum())
 
 def second_task():
     flights = pd.read_csv("flights.csv", index_col=[0])
@@ -39,7 +42,8 @@ def third_task():
     z.dropna(subset= ['G'], inplace= True)
     f.dropna(subset= ['H'], inplace= True)
     cool_guys = pd.concat((z,f), axis = 0)
-    print(cool_guys['group_faculty'].value_counts(), '\n',cool_guys['group_out'].value_counts())
+    print(cool_guys['group_faculty'].value_counts(), '\n',
+          cool_guys['group_out'].value_counts())
     plt.show()
 
 if __name__ == "__main__":
@@ -48,10 +52,10 @@ if __name__ == "__main__":
     print("------------------------Firts---------------------")
     first_task()
 
-    print("##################################################")
-    print("----------------------Second----------------------")
-    second_task()
+    # print("##################################################")
+    # print("----------------------Second----------------------")
+    # second_task()
 
-    print("##################################################")
-    print("-----------------------Third----------------------")
-    third_task()
+    # print("##################################################")
+    # print("-----------------------Third----------------------")
+    # third_task()
