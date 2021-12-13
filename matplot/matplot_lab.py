@@ -2,7 +2,8 @@ import matplotlib.pyplot as plt
 import pandas            as pd
 import numpy             as np
 
-from sys import platform
+from matplotlib.animation import FuncAnimation
+from sys                  import platform
 
 import imageio
 import time
@@ -73,33 +74,25 @@ def second_task():
     for i in data:
         all_data += i
 
-    frame = []
-    for i in range(len(x) - 1):
-        plt.axis([0, max(all_data), min(all_data) - abs(min(all_data)/5),
-                 max(all_data) + abs(max(all_data)/5)])
-        plt.plot(x[i],y[i])
-        plt.grid(True)
-       
-        plt.title(f'Frame: {i + 1}') 
-        plt.savefig(f'{i+1}.png')
-        frame.append(f'{i+1}.png')
-        plt.clf()
-        
-    with imageio.get_writer('mygif.gif', mode='I') as writer:
-        for filename in frame:
-            image = imageio.imread(filename)
-            writer.append_data(image)
-        for filename in frame:
-            os.remove(filename)
+    fig, ax = plt.subplots()
+    line, = ax.plot(x[5], y[5])
 
-    if platform == 'linux' or platform == 'linux2':
-        os.system("xviewer " + r"mygif.gif")
-    elif platform == 'win32' or platform == 'win64':
-        os.startfile(r'mygif.gif')
-    else:
-        raise Exception("Undefined platform.")
-    time.sleep(2)
-    os.remove('mygif.gif')
+    def anim(i, line, x, y, ax):
+        line.set_data(x[i], y[i])
+        plt.title(f"Frame: {i + 1}")
+        plt.grid(True)
+        return [line]
+
+    animation = FuncAnimation(
+            fig,
+            func=anim,
+            frames=np.arange(0, len(y)),
+            fargs=(line, x, y, ax),
+            blit=True,
+            repeat=False
+            )
+
+    animation.save("mygif.gif", writer='imagemagick')
     
 def third_task():
     dk = pd.read_csv('students.csv', sep=";", header=None)
@@ -114,6 +107,6 @@ if __name__ == "__main__":
 
     # first_task()
 
-    # second_task()
+    second_task()
 
-    third_task()
+    # third_task()
