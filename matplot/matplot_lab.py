@@ -89,10 +89,11 @@ def second_task():
             frames=np.arange(0, len(y)),
             fargs=(line, x, y, ax),
             blit=True,
-            repeat=False
+            repeat=True
             )
 
     animation.save("mygif.gif", writer='imagemagick')
+    plt.show()
     
 def third_task():
     dk = pd.read_csv('students.csv', sep=";", header=None)
